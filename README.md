@@ -657,6 +657,56 @@ The ROC curve plots the performance of a classification model at all possible cl
 ### B. AUC (Area Under the Curve)
 AUC is the measure of the entire two-dimensional area underneath the entire ROC curve.
 
+## 🛠️ Regularization Techniques
+
+Regularization is used primarily in linear models to prevent **overfitting** by improving **generalization** and managing the trade-off between **bias and variance**.
+
+---
+
+### 1. Ridge Regression ($\mathbf{L_2}$ Regularization)
+
+Ridge Regression adds a penalty proportional to the **square of the magnitude of the coefficients** to the loss function.
+
+* **Penalty Term:** $\lambda \sum_{j=1}^{n} \beta_j^2$
+* **Cost Function:**
+    $$\text{Cost}(\beta) = \underbrace{\text{RSS}(\beta)}_{\text{Original Loss (e.g., MSE)}} + \underbrace{\lambda \sum_{j=1}^{n} \beta_j^2}_{\text{Ridge Penalty}}$$
+* **Effect:** It shrinks all coefficients towards zero, making the model simpler. It reduces the impact of less significant features but **never sets any coefficient exactly to zero**.
+* **Use Case:** Effective when you have many features that all contribute slightly, or when features are highly correlated.
+
+---
+
+### 2. Lasso Regression ($\mathbf{L_1}$ Regularization)
+
+Lasso (Least Absolute Shrinkage and Selection Operator) Regression adds a penalty proportional to the **absolute value of the magnitude of the coefficients** to the loss function.
+
+* **Penalty Term:** $\lambda \sum_{j=1}^{n} |\beta_j|$
+* **Cost Function:**
+  $$\text{Cost}(\beta) = \underbrace{\text{RSS}(\beta)}_{\text{Original Loss (e.g., MSE)}} + \underbrace{\lambda \sum_{j=1}^{n} |\beta_j|}_{\text{Lasso Penalty}}$$
+* **Effect:** This penalty can force the coefficients of irrelevant features **exactly to zero**.
+* **Key Advantage:** Lasso inherently performs **feature selection**, simplifying the model by excluding useless predictors.
+* **Use Case:** Ideal when you suspect that only a few features are truly relevant, and you want a sparser, more interpretable model.
+
+---
+
+### 3. Elastic Net Regularization
+
+Elastic Net combines both the Ridge ($\mathbf{L_2}$) and Lasso ($\mathbf{L_1}$) penalties.
+
+* **Penalty Term:** $\lambda_1 \sum_{j=1}^{n} |\beta_j| + \lambda_2 \sum_{j=1}^{n} \beta_j^2$
+* **Cost Function:**
+    $$ \text{Cost}(\beta) = \underbrace{\text{RSS}(\beta)}_{\text{Original Loss}} + \underbrace{\lambda_1 \sum_{j=1}^{n} |\beta_j|}_{\text{Lasso Penalty}} + \underbrace{\lambda_2 \sum_{j=1}^{n} \beta_j^2}_{\text{Ridge Penalty}} $$
+* **Effect:** It combines the **feature selection** capability of Lasso with the **stability** of Ridge.
+* **Key Advantage:** It is particularly useful when there are groups of **highly correlated features**. Unlike Lasso, Elastic Net tends to select **all** correlated features together.
+
+---
+
+## 🔍 Regularization Comparison Table
+
+| Technique | Penalty Term Added | Coefficient Shrinkage | Feature Selection |
+| :--- | :--- | :--- | :--- |
+| **Ridge ($L_2$)** | Sum of squares ($\sum \beta_j^2$) | Shrinks all coefficients towards zero (never exactly zero) | No |
+| **Lasso ($L_1$)** | Sum of absolute values ($\sum |\beta_j|$) | Shrinks some coefficients **exactly to zero** | **Yes** |
+| **Elastic Net** | Combination of $L_1$ and $L_2$ | Shrinks and selects features | Yes |
 * **Interpretation:** AUC represents the degree or measure of **separability**. It tells you how well the model is capable of distinguishing between classes.
     * **AUC = 1.0:** Perfect separation.
     * **AUC = 0.5:** No better than random guessing.
